@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ImmoConnect — Votre plateforme immobilière</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0D48A;
+    --gold-dark: #8B6914;
+    --dark: #0F1117;
+    --dark-2: #181C27;
+    --dark-3: #232839;
+    --dark-4: #2E3447;
+    --text: #F5F3EE;
+    --text-muted: #9A96A6;
+    --text-light: #C8C5D0;
+    --green: #3D9A6A;
+    --green-light: #56D494;
+    --radius: 12px;
+    --radius-lg: 20px;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(15,17,23,0.85);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--gold);
+    letter-spacing: 0.5px;
+  }
+  .logo span { color: var(--text); }
+
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  .nav-cta {
+    display: flex; gap: 1rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.65rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all .2s;
+    border: none;
+  }
+
+  .btn-outline {
+    border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold);
+    background: transparent;
+  }
+  .btn-outline:hover {
+    background: rgba(201,168,76,0.1);
+    border-color: var(--gold);
+  }
+
+  .btn-gold {
+    background: var(--gold);
+    color: var(--dark);
+    font-weight: 600;
+  }
+  .btn-gold:hover {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 60% 40%, rgba(201,168,76,0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 70%, rgba(61,154,106,0.05) 0%, transparent 60%),
+      linear-gradient(160deg, #0F1117 0%, #181C27 100%);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(201,168,76,0.05) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(201,168,76,0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  }
+
+  .hero-content {
+    position: relative;
+    max-width: 800px;
+    text-align: center;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.4rem 1.2rem;
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 999px;
+    font-size: 0.8rem;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    background: rgba(201,168,76,0.07);
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green-light);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4.2rem);
+    line-height: 1.15;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.5px;
+  }
+
+  h1 .accent { color: var(--gold); }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 580px;
+    margin: 0 auto 2.5rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-lg { padding: 0.85rem 2.2rem; font-size: 0.95rem; }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    justify-content: center;
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .stat-item { text-align: center; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--gold);
+  }
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+    letter-spacing: 0.3px;
+  }
+
+  /* ─── SECTIONS ─── */
+  section {
+    padding: 6rem 4rem;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .section-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .section-desc {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 520px;
+    margin-bottom: 3rem;
+  }
+
+  /* ─── SEARCH BAR ─── */
+  .search-section {
+    padding: 0 4rem 4rem;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .search-card {
+    background: var(--dark-2);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+  }
+
+  .search-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .tab {
+    padding: 0.5rem 1.4rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text-muted);
+    transition: all .2s;
+  }
+
+  .tab.active {
+    background: var(--gold);
+    color: var(--dark);
+    font-weight: 600;
+  }
+
+  .tab:not(.active):hover {
+    border-color: rgba(201,168,76,0.3);
+    color: var(--gold);
+  }
+
+  .search-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: 1rem;
+    align-items: end;
+  }
+
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+
+  .form-group label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  .form-group input,
+  .form-group select {
+    background: var(--dark-3);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color .2s;
+    appearance: none;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus {
+    border-color: rgba(201,168,76,0.5);
+  }
+
+  .form-group select option { background: var(--dark-3); }
+
+  /* ─── BIENS IMMOBILIERS ─── */
+  .listings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .listing-card {
+    background: var(--dark-2);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all .3s;
+    cursor: pointer;
+  }
+
+  .listing-card:hover {
+    border-color: rgba(201,168,76,0.3);
+    transform: translateY(-4px);
+  }
+
+  .listing-img {
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .listing-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .4s;
+  }
+
+  .listing-card:hover .listing-img img { transform: scale(1.05); }
+
+  .listing-badge {
+    position: absolute;
+    top: 12px; left: 12px;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .badge-vente { background: var(--gold); color: var(--dark); }
+  .badge-location { background: var(--green); color: white; }
+  .badge-terrain { background: var(--dark-4); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
+
+  .fav-btn {
+    position: absolute;
+    top: 12px; right: 12px;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: rgba(15,17,23,0.6);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1rem;
+    transition: all .2s;
+  }
+
+  .fav-btn:hover { background: rgba(201,168,76,0.2); color: var(--gold); }
+
+  .listing-body { padding: 1.25rem; }
+
+  .listing-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+
+  .listing-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+
+  .listing-location {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 1rem;
+  }
+
+  .listing-specs {
+    display: flex;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .spec {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .spec-icon { font-size: 1rem; }
+
+  /* ─── ARTISANS ─── */
+  .artisans-section { background: var(--dark-2); }
+
+  .artisans-wrapper {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 6rem 4rem;
+  }
+
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .cat-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 1.5rem 1rem;
+    background: var(--dark-3);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all .2s;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .cat-btn:hover, .cat-btn.active {
+    border-color: rgba(201,168,76,0.3);
+    background: rgba(201,168,76,0.07);
+    color: var(--gold);
+  }
+
+  .cat-icon {
+    font-size: 2rem;
+    line-height: 1;
+  }
+
+  .artisans-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .artisan-card {
+    background: var(--dark-3);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    transition: all .3s;
+    cursor: pointer;
+  }
+
+  .artisan-card:hover {
+    border-color: rgba(201,168,76,0.3);
+    transform: translateY(-3px);
+  }
+
+  .artisan-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .artisan-avatar {
+    width: 52px; height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+
+  .av-blue { background: rgba(56,130,246,0.15); }
+  .av-green { background: rgba(61,154,106,0.15); }
+  .av-gold { background: rgba(201,168,76,0.15); }
+  .av-red { background: rgba(239,68,68,0.15); }
+  .av-purple { background: rgba(139,92,246,0.15); }
+
+  .artisan-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .artisan-type {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  .artisan-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.8rem;
+    margin-bottom: 8px;
+  }
+
+  .stars { color: var(--gold); }
+
+  .artisan-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--text-light);
+  }
+
+  .artisan-footer {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .artisan-zone {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  .contact-btn {
+    padding: 0.4rem 1rem;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 6px;
+    color: var(--gold);
+    font-size: 0.78rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .2s;
+  }
+
+  .contact-btn:hover {
+    background: var(--gold);
+    color: var(--dark);
+  }
+
+  /* ─── HOW IT WORKS ─── */
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+    position: relative;
+  }
+
+  .step {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    position: relative;
+  }
+
+  .step-num {
+    width: 60px; height: 60px;
+    border-radius: 16px;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--gold);
+    margin: 0 auto 1.5rem;
+  }
+
+  .step h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .step p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ─── CTA BANNER ─── */
+  .cta-section {
+    padding: 3rem 4rem 6rem;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .cta-banner {
+    background: linear-gradient(135deg, rgba(201,168,76,0.15) 0%, rgba(61,154,106,0.08) 100%);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 24px;
+    padding: 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-banner::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+  }
+
+  .cta-banner h2 { margin-bottom: 1rem; }
+
+  .cta-banner p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  /* ─── MODAL ─── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(8px);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--dark-2);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 20px;
+    padding: 2.5rem;
+    width: 90%;
+    max-width: 520px;
+    position: relative;
+    animation: slideUp .25s ease;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 1.2rem; right: 1.2rem;
+    background: rgba(255,255,255,0.07);
+    border: none;
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .2s;
+  }
+
+  .modal-close:hover { background: rgba(255,255,255,0.12); color: var(--text); }
+
+  .modal h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .modal .modal-sub {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .modal-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding-bottom: 1rem;
+  }
+
+  .modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .modal-form input, .modal-form select, .modal-form textarea {
+    background: var(--dark-3);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    width: 100%;
+    transition: border-color .2s;
+  }
+
+  .modal-form input:focus, .modal-form select:focus, .modal-form textarea:focus {
+    border-color: rgba(201,168,76,0.5);
+  }
+
+  .modal-form textarea { resize: vertical; min-height: 80px; }
+  .modal-form select option { background: var(--dark-3); }
+
+  .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 4rem 4rem 2rem;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .footer-brand p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-top: 0.75rem;
+    max-width: 280px;
+  }
+
+  .footer-col h4 {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1.2rem;
+  }
+
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .footer-col a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color .2s;
+  }
+  .footer-col a:hover { color: var(--gold); }
+
+  .footer-bottom {
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  /* ─── TOAST ─── */
+  .toast {
+    position: fixed;
+    bottom: 2rem; right: 2rem;
+    background: var(--dark-2);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 300;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all .3s;
+  }
+
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast-icon { color: var(--green-light); font-size: 1.1rem; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section, .search-section, .cta-section { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .search-row { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+    .artisans-wrapper { padding: 4rem 1.5rem; }
+    #hero { padding: 6rem 1.5rem 3rem; }
+    .hero-stats { gap: 2rem; }
+    .cta-banner { padding: 2.5rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Immo<span>Connect</span></div>
+  <ul class="nav-links">
+    <li><a href="#biens">Biens</a></li>
+    <li><a href="#artisans">Artisans</a></li>
+    <li><a href="#comment">Comment ça marche</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-cta">
+    <button class="btn btn-outline" onclick="openModal('login')">Connexion</button>
+    <button class="btn btn-gold" onclick="openModal('register')">Publier une annonce</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🇨🇮 Plateforme #1 en Côte d'Ivoire</div>
+    <h1>
+      Achetez, vendez &<br>
+      connectez-vous dans<br>
+      <span class="accent">l'immobilier</span>
+    </h1>
+    <p class="hero-sub">
+      Maisons, terrains, appartements — et tous les professionnels du bâtiment : géomètres, terrassiers, fabricants, artisans. Tout en un seul endroit.
+    </p>
+    <div class="hero-actions">
+      <a href="#biens" class="btn btn-gold btn-lg">Voir les biens</a>
+      <a href="#artisans" class="btn btn-outline btn-lg">Trouver un artisan</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">1 240+</div>
+        <div class="stat-label">Biens disponibles</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">380+</div>
+        <div class="stat-label">Artisans certifiés</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">15 villes</div>
+        <div class="stat-label">Couverture nationale</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEARCH -->
+<div class="search-section">
+  <div class="search-card">
+    <div class="search-tabs">
+      <button class="tab active" onclick="setTab(this,'vente')">🏠 Vente</button>
+      <button class="tab" onclick="setTab(this,'location')">🔑 Location</button>
+      <button class="tab" onclick="setTab(this,'terrain')">🌿 Terrain</button>
+      <button class="tab" onclick="setTab(this,'artisan')">🔧 Artisan</button>
+    </div>
+    <div class="search-row">
+      <div class="form-group">
+        <label>Ville / Quartier</label>
+        <input type="text" placeholder="Ex: Abidjan, Cocody...">
+      </div>
+      <div class="form-group">
+        <label>Type de bien</label>
+        <select>
+          <option>Tous les types</option>
+          <option>Villa</option>
+          <option>Appartement</option>
+          <option>Maison</option>
+          <option>Terrain</option>
+          <option>Commerce</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Budget (FCFA)</label>
+        <select>
+          <option>Tout budget</option>
+          <option>0 – 10 M</option>
+          <option>10 M – 50 M</option>
+          <option>50 M – 100 M</option>
+          <option>100 M – 200 M</option>
+          <option>200 M +</option>
+        </select>
+      </div>
+      <button class="btn btn-gold btn-lg" onclick="showToast('🔍 Recherche en cours...')">Rechercher</button>
+    </div>
+  </div>
+</div>
+
+<!-- BIENS IMMOBILIERS -->
+<section id="biens">
+  <span class="section-tag">Annonces</span>
+  <h2>Biens immobiliers</h2>
+  <p class="section-desc">Maisons, villas, appartements et terrains disponibles à la vente ou à la location partout en Côte d'Ivoire.</p>
+
+  <div class="listings-grid">
+
+    <div class="listing-card">
+      <div class="listing-img">
+        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80" alt="Villa moderne">
+        <span class="listing-badge badge-vente">Vente</span>
+        <button class="fav-btn" onclick="toggleFav(this)">♡</button>
+      </div>
+      <div class="listing-body">
+        <div class="listing-price">85 000 000 FCFA</div>
+        <div class="listing-title">Villa moderne avec piscine</div>
+        <div class="listing-location">📍 Cocody, Abidjan</div>
+        <div class="listing-specs">
+          <span class="spec"><span class="spec-icon">🛏</span> 4 ch.</span>
+          <span class="spec"><span class="spec-icon">🚿</span> 3 SDB</span>
+          <span class="spec"><span class="spec-icon">📐</span> 280 m²</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="listing-card">
+      <div class="listing-img">
+        <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=80" alt="Maison familiale">
+        <span class="listing-badge badge-vente">Vente</span>
+        <button class="fav-btn" onclick="toggleFav(this)">♡</button>
+      </div>
+      <div class="listing-body">
+        <div class="listing-price">42 500 000 FCFA</div>
+        <div class="listing-title">Maison familiale 5 pièces</div>
+        <div class="listing-location">📍 Yopougon, Abidjan</div>
+        <div class="listing-specs">
+          <span class="spec"><span class="spec-icon">🛏</span> 5 ch.</span>
+          <span class="spec"><span class="spec-icon">🚿</span> 2 SDB</span>
+          <span class="spec"><span class="spec-icon">📐</span> 190 m²</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="listing-card">
+      <div class="listing-img">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="Terrain">
+        <span class="listing-badge badge-terrain">Terrain</span>
+        <button class="fav-btn" onclick="toggleFav(this)">♡</button>
+      </div>
+      <div class="listing-body">
+        <div class="listing-price">18 000 000 FCFA</div>
+        <div class="listing-title">Terrain constructible viabilisé</div>
+        <div class="listing-location">📍 Bassam, Grand-Bassam</div>
+        <div class="listing-specs">
+          <span class="spec"><span class="spec-icon">📐</span> 600 m²</span>
+          <span class="spec"><span class="spec-icon">✅</span> Titré</span>
+          <span class="spec"><span class="spec-icon">💧</span> Raccordé</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="listing-card">
+      <div class="listing-img">
+        <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=80" alt="Appartement">
+        <span class="listing-badge badge-location">Location</span>
+        <button class="fav-btn" onclick="toggleFav(this)">♡</button>
+      </div>
+      <div class="listing-body">
+        <div class="listing-price">350 000 FCFA / mois</div>
+        <div class="listing-title">Appartement T3 standing</div>
+        <div class="listing-location">📍 Plateau, Abidjan</div>
+        <div class="listing-specs">
+          <span class="spec"><span class="spec-icon">🛏</span> 3 ch.</span>
+          <span class="spec"><span class="spec-icon">🚿</span> 2 SDB</span>
+          <span class="spec"><span class="spec-icon">📐</span> 120 m²</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="listing-card">
+      <div class="listing-img">
+        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80" alt="Villa bord de mer">
+        <span class="listing-badge badge-vente">Vente</span>
+        <button class="fav-btn" onclick="toggleFav(this)">♡</button>
+      </div>
+      <div class="listing-body">
+        <div class="listing-price">150 000 000 FCFA</div>
+        <div class="listing-title">Villa prestige bord de lagune</div>
+        <div class="listing-location">📍 Angré, Abidjan</div>
+        <div class="listing-specs">
+          <span class="spec"><span class="spec-icon">🛏</span> 6 ch.</span>
+          <span class="spec"><span class="spec-icon">🚿</span> 4 SDB</span>
+          <span class="spec"><span class="spec-icon">📐</span> 450 m²</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="listing-card">
+      <div class="listing-img">
+        <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&q=80" alt="Terrain agricole">
+        <span class="listing-badge badge-terrain">Terrain</span>
+        <button class="fav-btn" onclick="toggleFav(this)">♡</button>
+      </div>
+      <div class="listing-body">
+        <div class="listing-price">9 500 000 FCFA</div>
+        <div class="listing-title">Terrain agricole à bâtir</div>
+        <div class="listing-location">📍 Bingerville</div>
+        <div class="listing-specs">
+          <span class="spec"><span class="spec-icon">📐</span> 1 500 m²</span>
+          <span class="spec"><span class="spec-icon">✅</span> ACD</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="text-align:center; margin-top:2.5rem;">
+    <button class="btn btn-outline btn-lg" onclick="showToast('📋 Chargement de toutes les annonces...')">Voir toutes les annonces →</button>
+  </div>
+</section>
+
+<!-- ARTISANS -->
+<div class="artisans-section" id="artisans">
+  <div class="artisans-wrapper">
+    <span class="section-tag">Professionnels</span>
+    <h2>Trouvez le bon artisan</h2>
+    <p class="section-desc">Géomètres, terrassiers, fabricants de bornes, maçons… tous les professionnels dont vous avez besoin pour votre projet.</p>
+
+    <div class="categories-grid">
+      <button class="cat-btn active" onclick="filterCat(this)">
+        <span class="cat-icon">📐</span>
+        Géomètres
+      </button>
+      <button class="cat-btn" onclick="filterCat(this)">
+        <span class="cat-icon">⚡</span>
+        Bornes élec.
+      </button>
+      <button class="cat-btn" onclick="filterCat(this)">
+        <span class="cat-icon">🚜</span>
+        Terrassement
+      </button>
+      <button class="cat-btn" onclick="filterCat(this)">
+        <span class="cat-icon">🧱</span>
+        Maçonnerie
+      </button>
+      <button class="cat-btn" onclick="filterCat(this)">
+        <span class="cat-icon">🔌</span>
+        Électricité
+      </button>
+      <button class="cat-btn" onclick="filterCat(this)">
+        <span class="cat-icon">🚿</span>
+        Plomberie
+      </button>
+    </div>
+
+    <div class="artisans-grid">
+
+      <div class="artisan-card">
+        <div class="artisan-header">
+          <div class="artisan-avatar av-blue">📐</div>
+          <div>
+            <div class="artisan-name">Cabinet Koné & Associés</div>
+            <div class="artisan-type">Géomètre Expert</div>
+          </div>
+        </div>
+        <div class="artisan-rating">
+          <span class="stars">★★★★★</span>
+          <span style="color:var(--text-muted); font-size:0.78rem;">4.9 (47 avis)</span>
+        </div>
+        <div class="artisan-tags">
+          <span class="tag">Bornage</span>
+          <span class="tag">Cadastre</span>
+          <span class="tag">Lotissement</span>
+          <span class="tag">Topographie</span>
+        </div>
+        <div class="artisan-footer">
+          <span class="artisan-zone">📍 Abidjan & environs</span>
+          <button class="contact-btn" onclick="openModal('contact')">Contacter</button>
+        </div>
+      </div>
+
+      <div class="artisan-card">
+        <div class="artisan-header">
+          <div class="artisan-avatar av-gold">⚡</div>
+          <div>
+            <div class="artisan-name">ElecBorne CI</div>
+            <div class="artisan-type">Fabricant de Bornes</div>
+          </div>
+        </div>
+        <div class="artisan-rating">
+          <span class="stars">★★★★☆</span>
+          <span style="color:var(--text-muted); font-size:0.78rem;">4.6 (31 avis)</span>
+        </div>
+        <div class="artisan-tags">
+          <span class="tag">Bornes poto</span>
+          <span class="tag">Armoires élec.</span>
+          <span class="tag">Installation</span>
+        </div>
+        <div class="artisan-footer">
+          <span class="artisan-zone">📍 Tout Abidjan</span>
+          <button class="contact-btn" onclick="openModal('contact')">Contacter</button>
+        </div>
+      </div>
+
+      <div class="artisan-card">
+        <div class="artisan-header">
+          <div class="artisan-avatar av-green">🚜</div>
+          <div>
+            <div class="artisan-name">TerraForce SARL</div>
+            <div class="artisan-type">Terrassement & TP</div>
+          </div>
+        </div>
+        <div class="artisan-rating">
+          <span class="stars">★★★★★</span>
+          <span style="color:var(--text-muted); font-size:0.78rem;">4.8 (62 avis)</span>
+        </div>
+        <div class="artisan-tags">
+          <span class="tag">Décapage</span>
+          <span class="tag">Nivellement</span>
+          <span class="tag">Engins lourds</span>
+          <span class="tag">Voirie</span>
+        </div>
+        <div class="artisan-footer">
+          <span class="artisan-zone">📍 National</span>
+          <button class="contact-btn" onclick="openModal('contact')">Contacter</button>
+        </div>
+      </div>
+
+      <div class="artisan-card">
+        <div class="artisan-header">
+          <div class="artisan-avatar av-red">🧱</div>
+          <div>
+            <div class="artisan-name">Bâtisseurs du Sud</div>
+            <div class="artisan-type">Maçonnerie & Gros œuvre</div>
+          </div>
+        </div>
+        <div class="artisan-rating">
+          <span class="stars">★★★★☆</span>
+          <span style="color:var(--text-muted); font-size:0.78rem;">4.4 (28 avis)</span>
+        </div>
+        <div class="artisan-tags">
+          <span class="tag">Fondations</span>
+          <span class="tag">Dalles</span>
+          <span class="tag">Construction</span>
+        </div>
+        <div class="artisan-footer">
+          <span class="artisan-zone">📍 Abidjan, Bassam</span>
+          <button class="contact-btn" onclick="openModal('contact')">Contacter</button>
+        </div>
+      </div>
+
+      <div class="artisan-card">
+        <div class="artisan-header">
+          <div class="artisan-avatar av-purple">🔌</div>
+          <div>
+            <div class="artisan-name">Diallo Électricité</div>
+            <div class="artisan-type">Électricien certifié</div>
+          </div>
+        </div>
+        <div class="artisan-rating">
+          <span class="stars">★★★★★</span>
+          <span style="color:var(--text-muted); font-size:0.78rem;">4.7 (55 avis)</span>
+        </div>
+        <div class="artisan-tags">
+          <span class="tag">Tableau élec.</span>
+          <span class="tag">Installation</span>
+          <span class="tag">Domotique</span>
+        </div>
+        <div class="artisan-footer">
+          <span class="artisan-zone">📍 Cocody, Marcory</span>
+          <button class="contact-btn" onclick="openModal('contact')">Contacter</button>
+        </div>
+      </div>
+
+      <div class="artisan-card">
+        <div class="artisan-header">
+          <div class="artisan-avatar av-blue">🚿</div>
+          <div>
+            <div class="artisan-name">AquaPlomb Pro</div>
+            <div class="artisan-type">Plombier sanitaire</div>
+          </div>
+        </div>
+        <div class="artisan-rating">
+          <span class="stars">★★★★☆</span>
+          <span style="color:var(--text-muted); font-size:0.78rem;">4.5 (39 avis)</span>
+        </div>
+        <div class="artisan-tags">
+          <span class="tag">Forage</span>
+          <span class="tag">Réseau eau</span>
+          <span class="tag">Fosse septique</span>
+        </div>
+        <div class="artisan-footer">
+          <span class="artisan-zone">📍 Tout Abidjan</span>
+          <button class="contact-btn" onclick="openModal('contact')">Contacter</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- COMMENT ÇA MARCHE -->
+<section id="comment">
+  <span class="section-tag">Processus</span>
+  <h2>Comment ça marche</h2>
+  <p class="section-desc">En quelques étapes simples, trouvez votre bien ou le professionnel idéal pour votre projet.</p>
+
+  <div class="steps-grid">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Créez votre compte</h3>
+      <p>Inscription rapide et gratuite. Acheteur, vendeur ou professionnel — choisissez votre profil.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Publiez ou recherchez</h3>
+      <p>Déposez votre annonce avec photos, ou utilisez notre moteur de recherche avancé.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Entrez en contact</h3>
+      <p>Messagerie intégrée sécurisée. Discutez directement avec vendeurs ou artisans.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h3>Finalisez votre projet</h3>
+      <p>Visitez, négociez et concrétisez votre transaction en toute confiance.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section" id="contact">
+  <div class="cta-banner">
+    <h2>Prêt à démarrer votre projet ?</h2>
+    <p>Rejoignez des milliers de propriétaires, acheteurs et professionnels déjà sur ImmoConnect.</p>
+    <div class="cta-actions">
+      <button class="btn btn-gold btn-lg" onclick="openModal('register')">Créer un compte gratuit</button>
+      <button class="btn btn-outline btn-lg" onclick="openModal('publish')">Publier une annonce</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">Immo<span>Connect</span></div>
+      <p>La plateforme de référence pour l'immobilier et les professionnels du bâtiment en Côte d'Ivoire.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Immobilier</h4>
+      <ul>
+        <li><a href="#">Vente de maisons</a></li>
+        <li><a href="#">Location</a></li>
+        <li><a href="#">Terrains</a></li>
+        <li><a href="#">Locaux commerciaux</a></li>
+        <li><a href="#">Nouvelles constructions</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Artisans</h4>
+      <ul>
+        <li><a href="#">Géomètres</a></li>
+        <li><a href="#">Terrassement</a></li>
+        <li><a href="#">Électricité / Bornes</a></li>
+        <li><a href="#">Maçonnerie</a></li>
+        <li><a href="#">Plomberie</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Plateforme</h4>
+      <ul>
+        <li><a href="#">À propos</a></li>
+        <li><a href="#">Publier une annonce</a></li>
+        <li><a href="#">Devenir partenaire</a></li>
+        <li><a href="#">Aide & FAQ</a></li>
+        <li><a href="#">Nous contacter</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 ImmoConnect — Tous droits réservés</span>
+    <span>Abidjan, Côte d'Ivoire 🇨🇮</span>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeModalOverlay(event)">
+  <div class="modal" id="modal-content">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="toast-icon">✅</span>
+  <span id="toast-msg">Action effectuée</span>
+</div>
+
+<script>
+  function openModal(type) {
+    const overlay = document.getElementById('modal');
+    const body = document.getElementById('modal-body');
+
+    if (type === 'login') {
+      body.innerHTML = `
+        <h3>Connexion</h3>
+        <p class="modal-sub">Accédez à votre espace ImmoConnect</p>
+        <div class="modal-form">
+          <input type="email" placeholder="Adresse email">
+          <input type="password" placeholder="Mot de passe">
+          <button class="btn btn-gold" style="width:100%; justify-content:center; padding:.85rem" onclick="showToast('✅ Connexion réussie !'); closeModal()">Se connecter</button>
+          <p style="text-align:center; font-size:.82rem; color:var(--text-muted)">Pas encore inscrit ? <a href="#" style="color:var(--gold)" onclick="openModal('register')">Créer un compte</a></p>
+        </div>`;
+    } else if (type === 'register') {
+      body.innerHTML = `
+        <h3>Créer un compte</h3>
+        <p class="modal-sub">Inscription gratuite en 1 minute</p>
+        <div class="modal-form">
+          <div class="modal-tabs">
+            <button class="tab active" onclick="setTab(this,'particulier')">Particulier</button>
+            <button class="tab" onclick="setTab(this,'professionnel')">Professionnel</button>
+          </div>
+          <div class="input-row">
+            <input type="text" placeholder="Prénom">
+            <input type="text" placeholder="Nom">
+          </div>
+          <input type="email" placeholder="Email">
+          <input type="tel" placeholder="Téléphone">
+          <input type="password" placeholder="Mot de passe">
+          <button class="btn btn-gold" style="width:100%; justify-content:center; padding:.85rem" onclick="showToast('🎉 Compte créé avec succès !'); closeModal()">S'inscrire gratuitement</button>
+        </div>`;
+    } else if (type === 'contact') {
+      body.innerHTML = `
+        <h3>Contacter l'artisan</h3>
+        <p class="modal-sub">Envoyez votre demande de devis</p>
+        <div class="modal-form">
+          <input type="text" placeholder="Votre nom complet">
+          <input type="tel" placeholder="Votre numéro de téléphone">
+          <select>
+            <option>Type de prestation</option>
+            <option>Devis gratuit</option>
+            <option>Visite de chantier</option>
+            <option>Renseignement</option>
+          </select>
+          <textarea placeholder="Décrivez votre projet (localisation, surface, travaux souhaités...)"></textarea>
+          <button class="btn btn-gold" style="width:100%; justify-content:center; padding:.85rem" onclick="showToast('📨 Message envoyé à l\'artisan !'); closeModal()">Envoyer la demande</button>
+        </div>`;
+    } else if (type === 'publish') {
+      body.innerHTML = `
+        <h3>Publier une annonce</h3>
+        <p class="modal-sub">Bien immobilier ou service professionnel</p>
+        <div class="modal-form">
+          <div class="modal-tabs">
+            <button class="tab active" onclick="setTab(this,'bien')">Bien immo</button>
+            <button class="tab" onclick="setTab(this,'service')">Mon service</button>
+          </div>
+          <select>
+            <option>Type d'annonce</option>
+            <option>Vente – Maison/Villa</option>
+            <option>Vente – Terrain</option>
+            <option>Location</option>
+            <option>Artisan / Professionnel</option>
+          </select>
+          <input type="text" placeholder="Titre de l'annonce">
+          <input type="text" placeholder="Localisation">
+          <input type="text" placeholder="Prix (FCFA)">
+          <textarea placeholder="Description détaillée..."></textarea>
+          <button class="btn btn-gold" style="width:100%; justify-content:center; padding:.85rem" onclick="showToast('📋 Annonce publiée avec succès !'); closeModal()">Publier l'annonce</button>
+        </div>`;
+    }
+
+    overlay.classList.add('open');
+  }
+
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+  }
+
+  function closeModalOverlay(e) {
+    if (e.target.id === 'modal') closeModal();
+  }
+
+  function setTab(el, val) {
+    const parent = el.closest('.search-tabs, .modal-tabs');
+    parent.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function filterCat(el) {
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    showToast('🔍 Filtrage en cours...');
+  }
+
+  function toggleFav(btn) {
+    const isFav = btn.textContent === '♥';
+    btn.textContent = isFav ? '♡' : '♥';
+    btn.style.color = isFav ? '' : 'var(--gold)';
+    showToast(isFav ? '💔 Retiré des favoris' : '❤️ Ajouté aux favoris');
+  }
+
+  let toastTimeout;
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toast-msg').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+</script>
+</body>
+</html>
